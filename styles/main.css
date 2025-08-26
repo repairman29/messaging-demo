@@ -210,6 +210,32 @@ p {
     display: none;
 }
 
+.logout-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: var(--transition);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.875rem;
+    min-width: 90px;
+    text-align: center;
+    border: 2px solid var(--secondary-color);
+    position: relative;
+    z-index: 10;
+    box-shadow: var(--shadow);
+}
+
+.logout-btn:hover {
+    background-color: #dc3545;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: #dc3545;
+}
+
 
 
 .hamburger {

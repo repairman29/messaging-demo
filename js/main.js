@@ -272,6 +272,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize Widget Control
     initializeWidgetControl();
+    
+    // Initialize Navigation Logout Button
+    initializeNavigationLogout();
 });
 
 // Login Modal Functions
@@ -388,6 +391,9 @@ function initializeLoginModal() {
                     dashboardUserName.textContent = userRole;
                 }
                 
+                // Update navigation buttons
+                updateNavigationButtons(userRole);
+                
                 showNotification(`Welcome, ${userRole}!`, 'success');
             } else {
                 showNotification('Invalid password. Please try again.', 'error');
@@ -458,6 +464,65 @@ function initializeLoginModal() {
     }
 }
 
+// Navigation Update Functions
+function updateNavigationButtons(userRole) {
+    const navLoginItem = document.getElementById('navLoginItem');
+    const navLogoutItem = document.getElementById('navLogoutItem');
+    const navLoginBtn = document.getElementById('navLoginBtn');
+    const navLogoutBtn = document.getElementById('navLogoutBtn');
+    
+    if (navLoginItem && navLogoutItem && navLoginBtn && navLogoutBtn) {
+        if (userRole) {
+            // User is logged in
+            navLoginItem.style.display = 'none';
+            navLogoutItem.style.display = 'block';
+            navLoginBtn.textContent = userRole;
+        } else {
+            // User is logged out
+            navLoginItem.style.display = 'block';
+            navLogoutItem.style.display = 'none';
+            navLoginBtn.textContent = 'Login';
+        }
+    }
+}
+
+// Initialize navigation logout button
+function initializeNavigationLogout() {
+    const navLogoutBtn = document.getElementById('navLogoutBtn');
+    if (navLogoutBtn) {
+        navLogoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Hide widget for all users
+            if (typeof zE !== 'undefined') {
+                zE('messenger', 'hide');
+            }
+            
+            // Remove widget-enabled class
+            document.body.classList.remove('widget-enabled');
+            
+            // Reset modal if it's open
+            const loginForm = document.getElementById('loginForm');
+            const userInfo = document.getElementById('userInfo');
+            if (loginForm && userInfo) {
+                loginForm.style.display = 'block';
+                userInfo.style.display = 'none';
+                loginForm.reset();
+            }
+            
+            // Clear session storage
+            sessionStorage.removeItem('userRole');
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('userDisplayName');
+            
+            // Update navigation
+            updateNavigationButtons(null);
+            
+            showNotification('Logged out successfully. Widget hidden.', 'info');
+        });
+    }
+}
+
 // Widget Control Functions
 function initializeWidgetControl() {
     // Ensure widget is hidden by default for all users
@@ -495,6 +560,9 @@ function initializeWidgetControl() {
         if (dashboardUserName) {
             dashboardUserName.textContent = userRole;
         }
+        
+        // Update navigation buttons
+        updateNavigationButtons(userRole);
     } else {
         // Hide widget for all other users
         if (typeof zE !== 'undefined') {
