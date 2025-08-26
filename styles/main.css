@@ -181,7 +181,7 @@ p {
 }
 
 .login-btn {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color) !important;
     color: white !important;
     padding: 8px 16px;
     border-radius: 6px;
@@ -192,13 +192,17 @@ p {
     font-size: 0.875rem;
     min-width: 80px;
     text-align: center;
+    border: 2px solid var(--primary-color);
+    position: relative;
+    z-index: 10;
 }
 
 .login-btn:hover {
-    background-color: var(--primary-dark);
+    background-color: var(--primary-dark) !important;
     color: white !important;
-    transform: translateY(-1px);
-    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-dark);
 }
 
 .login-btn::after {
@@ -220,6 +224,17 @@ p {
 
 .login-btn {
     animation: loginPulse 2s infinite;
+}
+
+/* Debug styles - make login button super visible */
+.login-btn {
+    background-color: #ff0000 !important;
+    color: white !important;
+    border: 3px solid #000000 !important;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8) !important;
+    font-size: 1rem !important;
+    padding: 12px 20px !important;
+    min-width: 100px !important;
 }
 
 .hamburger {
