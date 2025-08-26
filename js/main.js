@@ -333,11 +333,17 @@ function initializeLoginModal() {
                 
                 // Control widget visibility based on user role
                 if (userSelect === 'premier') {
-                    zE('webWidget', 'show');
+                    if (typeof zE !== 'undefined') {
+                        zE('webWidget', 'show');
+                    }
+                    document.body.classList.add('widget-enabled');
                     document.getElementById('widgetStatus').textContent = 'Enabled';
                     document.getElementById('widgetStatus').className = 'status-value enabled';
                 } else {
-                    zE('webWidget', 'hide');
+                    if (typeof zE !== 'undefined') {
+                        zE('webWidget', 'hide');
+                    }
+                    document.body.classList.remove('widget-enabled');
                     document.getElementById('widgetStatus').textContent = 'Disabled';
                     document.getElementById('widgetStatus').className = 'status-value disabled';
                 }
@@ -358,7 +364,12 @@ function initializeLoginModal() {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             // Hide widget for all users
-            zE('webWidget', 'hide');
+            if (typeof zE !== 'undefined') {
+                zE('webWidget', 'hide');
+            }
+            
+            // Remove widget-enabled class
+            document.body.classList.remove('widget-enabled');
             
             // Reset form and show login
             loginForm.style.display = 'block';
@@ -381,13 +392,20 @@ function initializeLoginModal() {
 
 // Widget Control Functions
 function initializeWidgetControl() {
+    // Ensure widget is hidden by default for all users
+    if (typeof zE !== 'undefined') {
+        zE('webWidget', 'hide');
+    }
+    
     // Check if user is already logged in
     const isLoggedIn = sessionStorage.getItem('isLoggedIn');
     const userRole = sessionStorage.getItem('userRole');
     
     if (isLoggedIn && userRole === 'premier') {
         // Show widget for logged-in premier users
-        zE('webWidget', 'show');
+        if (typeof zE !== 'undefined') {
+            zE('webWidget', 'show');
+        }
         
         // Update login button
         const loginBtn = document.getElementById('loginBtn');
@@ -396,6 +414,29 @@ function initializeWidgetControl() {
         }
     } else {
         // Hide widget for all other users
-        zE('webWidget', 'hide');
+        if (typeof zE !== 'undefined') {
+            zE('webWidget', 'hide');
+        }
     }
+    
+    // Add additional widget hiding mechanism
+    setTimeout(() => {
+        if (typeof zE !== 'undefined') {
+            zE('webWidget', 'hide');
+            console.log('Additional widget hiding applied');
+        }
+    }, 1000);
+    
+    // Hide widget on page load and focus events
+    window.addEventListener('load', () => {
+        if (typeof zE !== 'undefined') {
+            zE('webWidget', 'hide');
+        }
+    });
+    
+    window.addEventListener('focus', () => {
+        if (typeof zE !== 'undefined') {
+            zE('webWidget', 'hide');
+        }
+    });
 }

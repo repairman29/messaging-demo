@@ -280,21 +280,34 @@
     <!-- Start of butler-ai Zendesk Widget script -->
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=a5f4e0f7-8aa3-44bc-a9b1-37ca07d5b4ff"></script>
     <script>
-        // Hide widget by default for all users
-        zE('webWidget', 'configure', {
-            display: {
-                helpButton: {
-                    color: '#1f73b7'
-                }
-            },
-            webWidget: {
-                position: { horizontal: 'right', vertical: 'bottom' },
-                offset: { horizontal: '20px', vertical: '20px' }
+        // Wait for Zendesk widget to load, then hide it by default
+        function initializeZendeskWidget() {
+            if (typeof zE !== 'undefined') {
+                // Configure the widget
+                zE('webWidget', 'configure', {
+                    display: {
+                        helpButton: {
+                            color: '#1f73b7'
+                        }
+                    },
+                    webWidget: {
+                        position: { horizontal: 'right', vertical: 'bottom' },
+                        offset: { horizontal: '20px', vertical: '20px' }
+                    }
+                });
+                
+                // Hide the widget immediately for all users
+                zE('webWidget', 'hide');
+                
+                console.log('Zendesk widget initialized and hidden');
+            } else {
+                // Retry after a short delay if zE is not available yet
+                setTimeout(initializeZendeskWidget, 100);
             }
-        });
+        }
         
-        // Hide the widget immediately after configuration
-        zE('webWidget', 'hide');
+        // Start initialization
+        initializeZendeskWidget();
     </script>
     <!-- End of butler-ai Zendesk Widget script -->
 
