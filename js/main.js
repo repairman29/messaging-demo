@@ -282,11 +282,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Login Modal Functions
 function initializeLoginModal() {
+    console.log('Initializing login modal...');
+    
     const loginBtn = document.getElementById('loginBtn');
     const modal = document.getElementById('loginModal');
     const closeBtn = document.getElementById('closeModal');
     const loginForm = document.getElementById('loginForm');
     const userInfo = document.getElementById('userInfo');
+    
+    console.log('Login elements found:', {
+        loginBtn: !!loginBtn,
+        modal: !!modal,
+        closeBtn: !!closeBtn,
+        loginForm: !!loginForm,
+        userInfo: !!userInfo
+    });
     
     // Open modal
     if (loginBtn) {
@@ -315,40 +325,53 @@ function initializeLoginModal() {
         });
     }
     
-    // Handle login form submission
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const userSelect = document.getElementById('userSelect').value;
-            const password = document.getElementById('password').value;
-            
-            if (password === 'Testing123!') {
-                // Login successful
-                let userRole, roleClass, userName;
+            // Handle login form submission
+        if (loginForm) {
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
                 
-                if (userSelect === 'premier') {
-                    userRole = 'Premier User';
-                    roleClass = 'premier';
-                    userName = 'Premium Support Access';
-                } else if (userSelect === 'registered') {
-                    userRole = 'Registered User';
-                    roleClass = 'registered';
-                    userName = 'Authenticated Zendesk User';
-                } else {
-                    userRole = 'Test User';
-                    roleClass = 'test';
-                    userName = 'Basic Demo Access';
-                }
+                console.log('Login form submitted...');
                 
-                // Update UI
-                document.getElementById('roleBadge').textContent = userRole;
-                document.getElementById('roleBadge').className = `role-badge ${roleClass}`;
-                document.getElementById('userName').textContent = userName;
+                const userSelect = document.getElementById('userSelect').value;
+                const password = document.getElementById('password').value;
                 
-                // Show user info and hide form
-                loginForm.style.display = 'none';
-                userInfo.style.display = 'block';
+                console.log('User selected:', userSelect);
+                console.log('Password entered:', password);
+                
+                                if (password === 'Testing123!') {
+                    // Login successful
+                    console.log('Password correct! Processing login...');
+                    
+                    let userRole, roleClass, userName;
+                    
+                    if (userSelect === 'premier') {
+                        userRole = 'Premier User';
+                        roleClass = 'premier';
+                        userName = 'Premium Support Access';
+                    } else if (userSelect === 'registered') {
+                        userRole = 'Registered User';
+                        roleClass = 'registered';
+                        userName = 'Authenticated Zendesk User';
+                    } else {
+                        userRole = 'Test User';
+                        roleClass = 'test';
+                        userName = 'Basic Demo Access';
+                    }
+                    
+                    console.log('User role determined:', userRole);
+                    
+                    // Update UI
+                    document.getElementById('roleBadge').textContent = userRole;
+                    document.getElementById('roleBadge').className = `role-badge ${roleClass}`;
+                    document.getElementById('userName').textContent = userName;
+                    
+                    console.log('UI updated, hiding form and showing user info...');
+                    
+                    // Show user info and hide form
+                    loginForm.style.display = 'none';
+                    userInfo.style.display = 'block';
+                    
+                    console.log('Form hidden, user info shown');
                 
                 // Control widget visibility and authentication based on user role
                 if (userSelect === 'premier') {
