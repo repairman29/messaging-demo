@@ -303,10 +303,7 @@
         // Wait for Zendesk Web SDK to load, then hide it by default
         function initializeZendeskWidget() {
             if (typeof zE !== 'undefined') {
-                // Configure the new Web SDK messaging widget
-                zE('messenger', 'setLocale', 'en');
-                
-                // Hide the widget immediately for all users using new API
+                // Hide the widget immediately for all users
                 zE('messenger', 'hide');
                 
                 console.log('Zendesk Web SDK messaging widget initialized and hidden on dashboard');
@@ -361,7 +358,7 @@
                         <button class="btn btn-secondary" id="logoutBtn">Logout</button>
                     </div>
                     <div class="quick-actions">
-                        <button class="btn btn-outline" id="switchUserBtn">Switch User</button>
+                        <a href="dashboard.html" class="btn btn-outline" id="proceedBtn">Proceed to Dashboard</a>
                     </div>
                 </div>
             </div>

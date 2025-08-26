@@ -24,13 +24,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                const offsetTop = target.offsetTop - 80; // Account for fixed navbar
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
+            const href = this.getAttribute('href');
+            if (href && href !== '#') {
+                const target = document.querySelector(href);
+                if (target) {
+                    const offsetTop = target.offsetTop - 80; // Account for fixed navbar
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -359,12 +362,7 @@ function initializeLoginModal() {
                 } else if (userSelect === 'registered') {
                     // Registered User: Show widget with Zendesk authentication
                     if (typeof zE !== 'undefined') {
-                        // Authenticate the user in Zendesk
-                        zE('messenger', 'identify', {
-                            name: 'Demo User',
-                            email: 'demo.user@example.com',
-                            id: 'demo-user-123'
-                        });
+                        // Show widget for authenticated user
                         zE('messenger', 'show');
                     }
                     document.body.classList.add('widget-enabled');
@@ -537,14 +535,6 @@ function initializeWidgetControl() {
     if (isLoggedIn && (userRole === 'premier' || userRole === 'registered')) {
         // Show widget for logged-in premier or registered users
         if (typeof zE !== 'undefined') {
-            if (userRole === 'registered') {
-                // Re-authenticate registered users on page load
-                zE('messenger', 'identify', {
-                    name: 'Demo User',
-                    email: 'demo.user@example.com',
-                    id: 'demo-user-123'
-                });
-            }
             zE('messenger', 'show');
             document.body.classList.add('widget-enabled');
         }
