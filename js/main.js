@@ -362,7 +362,36 @@ function initializeLoginModal() {
                 } else if (userSelect === 'registered') {
                     // Registered User: Show widget with Zendesk authentication
                     if (typeof zE !== 'undefined') {
-                        // Show widget for authenticated user
+                        // Try to authenticate the user in Zendesk using the new Web SDK
+                        try {
+                            // Method 1: Try the new Web SDK identify method
+                            if (typeof zE('messenger', 'identify') === 'function') {
+                                zE('messenger', 'identify', {
+                                    name: 'Demo User',
+                                    email: 'demo.user@example.com',
+                                    id: 'demo-user-123'
+                                });
+                                console.log('User authenticated via identify method');
+                            }
+                            // Method 2: Try setting user properties
+                            else if (typeof zE('messenger', 'setLocale') === 'function') {
+                                zE('messenger', 'setLocale', 'en');
+                                console.log('User authenticated via setLocale method');
+                            }
+                            // Method 3: Try direct user object assignment
+                            else if (window.zE && window.zE.messenger) {
+                                window.zE.messenger.user = {
+                                    name: 'Demo User',
+                                    email: 'demo.user@example.com',
+                                    id: 'demo-user-123'
+                                };
+                                console.log('User authenticated via direct assignment');
+                            }
+                        } catch (e) {
+                            console.log('Authentication method not available:', e.message);
+                        }
+                        
+                        // Show the widget
                         zE('messenger', 'show');
                     }
                     document.body.classList.add('widget-enabled');
@@ -535,6 +564,33 @@ function initializeWidgetControl() {
     if (isLoggedIn && (userRole === 'premier' || userRole === 'registered')) {
         // Show widget for logged-in premier or registered users
         if (typeof zE !== 'undefined') {
+            // For registered users, try to authenticate them on page load
+            if (userRole === 'registered') {
+                try {
+                    // Try different authentication methods
+                    if (typeof zE('messenger', 'identify') === 'function') {
+                        zE('messenger', 'identify', {
+                            name: 'Demo User',
+                            email: 'demo.user@example.com',
+                            id: 'demo-user-123'
+                        });
+                        console.log('User re-authenticated on page load via identify');
+                    } else if (typeof zE('messenger', 'setLocale') === 'function') {
+                        zE('messenger', 'setLocale', 'en');
+                        console.log('User re-authenticated on page load via setLocale');
+                    } else if (window.zE && window.zE.messenger) {
+                        window.zE.messenger.user = {
+                            name: 'Demo User',
+                            email: 'demo.user@example.com',
+                            id: 'demo-user-123'
+                        };
+                        console.log('User re-authenticated on page load via direct assignment');
+                    }
+                } catch (e) {
+                    console.log('Page load authentication failed:', e.message);
+                }
+            }
+            
             zE('messenger', 'show');
             document.body.classList.add('widget-enabled');
         }

@@ -281,12 +281,20 @@
     -->
     
     <!-- Start of butler-ai Zendesk Widget script -->
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=a5f4e0f7-8aa3-44bc-a9b1-37ca07d5b4ff"></script>
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=1iO8X87GyyNSkjzT4-eQUV8hKPL0rqNgRlU3S1C1cSi61_b8Q8eFjYlHJLTUJSW8MGdLZh9j9BDW15PDYw-WQw"></script>
     <script>
         // Wait for Zendesk Web SDK to load, then hide it by default
         function initializeZendeskWidget() {
             if (typeof zE !== 'undefined') {
-                // Hide the widget immediately for all users
+                // Try to set locale and hide the widget immediately for all users
+                try {
+                    if (zE('messenger', 'setLocale')) {
+                        zE('messenger', 'setLocale', 'en');
+                    }
+                } catch (e) {
+                    console.log('setLocale not available, continuing...');
+                }
+                
                 zE('messenger', 'hide');
                 
                 console.log('Zendesk Web SDK messaging widget initialized and hidden');
