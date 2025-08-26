@@ -151,6 +151,25 @@ p {
     width: 100%;
 }
 
+.login-btn {
+    background-color: var(--primary-color);
+    color: white !important;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: var(--transition);
+}
+
+.login-btn:hover {
+    background-color: var(--primary-dark);
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+}
+
+.login-btn::after {
+    display: none;
+}
+
 .hamburger {
     display: none;
     flex-direction: column;
@@ -416,6 +435,24 @@ p {
 .form-group textarea {
     resize: vertical;
     min-height: 120px;
+}
+
+.demo-login-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.demo-login-section h4 {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.demo-login-section p {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
 }
 
 /* Footer */

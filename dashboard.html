@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Demo Analytics Dashboard - Zendesk Messaging Widget Integration">
+    <meta name="keywords" content="analytics, dashboard, metrics, Zendesk, customer support">
+    <meta name="author" content="Demo Dashboard">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://repairman29.github.io/messaging-demo/dashboard.html">
+    <meta property="og:title" content="Analytics Dashboard Demo">
+    <meta property="og:description" content="Demo analytics dashboard with Zendesk messaging widget">
+    <meta property="og:image" content="https://repairman29.github.io/messaging-demo/assets/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://repairman29.github.io/messaging-demo/dashboard.html">
+    <meta property="twitter:title" content="Analytics Dashboard Demo">
+    <meta property="twitter:description" content="Demo analytics dashboard with Zendesk messaging widget">
+    <meta property="twitter:image" content="https://repairman29.github.io/messaging-demo/assets/og-image.jpg">
+
+    <title>Analytics Dashboard - Demo</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for demo charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-body">
+    <!-- Navigation -->
+    <nav class="navbar dashboard-navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Analytics Demo</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">← Back to Demo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Analytics</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Reports</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link user-profile">
+                        <div class="user-avatar">JD</div>
+                        <span>John Demo</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard-main">
+        <!-- Header Section -->
+        <header class="dashboard-header">
+            <div class="container">
+                <h1>Analytics Dashboard</h1>
+                <p>Track your key metrics and user behavior in real-time</p>
+                <div class="date-picker">
+                    <span>📅 Last 30 days</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Metrics Cards -->
+        <section class="metrics-section">
+            <div class="container">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Total Users</h3>
+                            <span class="metric-trend positive">+12.5%</span>
+                        </div>
+                        <div class="metric-value">124,892</div>
+                        <div class="metric-change">+13,847 from last month</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Active Users</h3>
+                            <span class="metric-trend positive">+8.3%</span>
+                        </div>
+                        <div class="metric-value">89,234</div>
+                        <div class="metric-change">+6,812 from last month</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Conversion Rate</h3>
+                            <span class="metric-trend positive">+2.1%</span>
+                        </div>
+                        <div class="metric-value">3.24%</div>
+                        <div class="metric-change">+0.07% from last month</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Revenue</h3>
+                            <span class="metric-trend positive">+18.7%</span>
+                        </div>
+                        <div class="metric-value">$847,392</div>
+                        <div class="metric-change">+$133,847 from last month</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts-section">
+            <div class="container">
+                <div class="charts-grid">
+                    <!-- User Growth Chart -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>User Growth Trend</h3>
+                            <div class="chart-controls">
+                                <button class="chart-btn active">30D</button>
+                                <button class="chart-btn">90D</button>
+                                <button class="chart-btn">1Y</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="userGrowthChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- User Engagement Chart -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>User Engagement</h3>
+                            <div class="chart-controls">
+                                <button class="chart-btn active">Daily</button>
+                                <button class="chart-btn">Weekly</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="engagementChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="activity-section">
+            <div class="container">
+                <div class="activity-grid">
+                    <div class="activity-card">
+                        <h3>Recent Events</h3>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">📱</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">User Login</div>
+                                    <div class="activity-desc">user_123 logged in from iOS app</div>
+                                    <div class="activity-time">2 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">🛒</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Purchase Completed</div>
+                                    <div class="activity-desc">user_456 completed $99.99 purchase</div>
+                                    <div class="activity-time">15 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">📧</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Email Sent</div>
+                                    <div class="activity-desc">Welcome email sent to user_789</div>
+                                    <div class="activity-time">1 hour ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-card">
+                        <h3>Top Performing Pages</h3>
+                        <div class="page-list">
+                            <div class="page-item">
+                                <div class="page-name">Homepage</div>
+                                <div class="page-stats">
+                                    <span class="page-views">45.2K views</span>
+                                    <span class="page-conversion">3.8% conversion</span>
+                                </div>
+                            </div>
+                            <div class="page-item">
+                                <div class="page-name">Product Page</div>
+                                <div class="page-stats">
+                                    <span class="page-views">32.1K views</span>
+                                    <span class="page-conversion">5.2% conversion</span>
+                                </div>
+                            </div>
+                            <div class="page-item">
+                                <div class="page-name">Pricing</div>
+                                <div class="page-stats">
+                                    <span class="page-views">28.7K views</span>
+                                    <span class="page-conversion">4.1% conversion</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="actions-section">
+            <div class="container">
+                <h3>Quick Actions</h3>
+                <div class="actions-grid">
+                    <button class="action-btn">
+                        <span class="action-icon">📊</span>
+                        <span>Create Report</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="action-icon">👥</span>
+                        <span>Add User</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="action-icon">📈</span>
+                        <span>Export Data</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="action-icon">⚙️</span>
+                        <span>Settings</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Zendesk Web Widget Integration -->
+    <!-- 
+    ===========================================
+    ZENDESK WIDGET INTEGRATION INSTRUCTIONS
+    ===========================================
+    
+    This dashboard page also includes the Zendesk widget for customer support.
+    Users can get help while analyzing their data.
+    
+    Replace the script below with your actual Zendesk Web Widget script:
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=YOUR_WIDGET_KEY"></script>
+    
+    Example configuration for dashboard context:
+    <script>
+        zE('webWidget', 'configure', {
+            display: {
+                helpButton: {
+                    color: '#1f73b7'
+                }
+            },
+            webWidget: {
+                position: { horizontal: 'right', vertical: 'bottom' },
+                offset: { horizontal: '20px', vertical: '20px' }
+            },
+            chat: {
+                title: 'Analytics Support',
+                suppress: false
+            }
+        });
+    </script>
+    
+    For more configuration options, visit:
+    https://developer.zendesk.com/api-reference/widgets/chat-widget/chat-widget-api/
+    ===========================================
+    -->
+    
+    <!-- PLACEHOLDER: Replace with your actual Zendesk Web Widget script -->
+    <!-- 
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=YOUR_WIDGET_KEY"></script>
+    <script>
+        zE('webWidget', 'configure', {
+            display: {
+                helpButton: {
+                    color: '#1f73b7'
+                }
+            },
+            webWidget: {
+                position: { horizontal: 'right', vertical: 'bottom' },
+                offset: { horizontal: '20px', vertical: '20px' }
+            },
+            chat: {
+                title: 'Analytics Support',
+                suppress: false
+            }
+        });
+    </script>
+    -->
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
