@@ -300,11 +300,11 @@
     <!-- Start of butler-ai Zendesk Widget script -->
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=a5f4e0f7-8aa3-44bc-a9b1-37ca07d5b4ff"></script>
     <script>
-        // Wait for Zendesk widget to load, then hide it by default
+        // Wait for Zendesk Web SDK to load, then hide it by default
         function initializeZendeskWidget() {
             if (typeof zE !== 'undefined') {
-                // Configure the widget
-                zE('webWidget', 'configure', {
+                // Configure the new Web SDK messaging widget
+                zE('messenger', 'configure', {
                     display: {
                         helpButton: {
                             color: '#1f73b7'
@@ -320,10 +320,10 @@
                     }
                 });
                 
-                // Hide the widget immediately for all users
-                zE('webWidget', 'hide');
+                // Hide the widget immediately for all users using new API
+                zE('messenger', 'hide');
                 
-                console.log('Zendesk widget initialized and hidden on dashboard');
+                console.log('Zendesk Web SDK messaging widget initialized and hidden on dashboard');
             } else {
                 // Retry after a short delay if zE is not available yet
                 setTimeout(initializeZendeskWidget, 100);

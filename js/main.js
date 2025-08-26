@@ -253,18 +253,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Console welcome message
     console.log(`
-    🚀 Welcome to the Zendesk Messaging Widget Demo!
+    🚀 Welcome to the Zendesk Web SDK Messaging Demo!
     
-    This demo site showcases how to integrate Zendesk's messaging widget
-    into a modern, responsive website.
+    This demo site showcases how to integrate Zendesk's new Web SDK
+    messaging widget into a modern, responsive website with role-based access control.
     
-    To add your own Zendesk widget:
+    To add your own Zendesk Web SDK:
     1. Get your widget key from Zendesk admin panel
     2. Replace the placeholder script in index.html
     3. Customize the configuration as needed
     
     For more information, visit:
-    https://developer.zendesk.com/api-reference/widgets/chat-widget/
+    https://developer.zendesk.com/embeddables/docs/zendesk-sdk-for-web/getting_started
     `);
     
     // Initialize Login Modal System
@@ -334,14 +334,14 @@ function initializeLoginModal() {
                 // Control widget visibility based on user role
                 if (userSelect === 'premier') {
                     if (typeof zE !== 'undefined') {
-                        zE('webWidget', 'show');
+                        zE('messenger', 'show');
                     }
                     document.body.classList.add('widget-enabled');
                     document.getElementById('widgetStatus').textContent = 'Enabled';
                     document.getElementById('widgetStatus').className = 'status-value enabled';
                 } else {
                     if (typeof zE !== 'undefined') {
-                        zE('webWidget', 'hide');
+                        zE('messenger', 'hide');
                     }
                     document.body.classList.remove('widget-enabled');
                     document.getElementById('widgetStatus').textContent = 'Disabled';
@@ -365,7 +365,7 @@ function initializeLoginModal() {
         logoutBtn.addEventListener('click', () => {
             // Hide widget for all users
             if (typeof zE !== 'undefined') {
-                zE('webWidget', 'hide');
+                zE('messenger', 'hide');
             }
             
             // Remove widget-enabled class
@@ -394,7 +394,7 @@ function initializeLoginModal() {
 function initializeWidgetControl() {
     // Ensure widget is hidden by default for all users
     if (typeof zE !== 'undefined') {
-        zE('webWidget', 'hide');
+        zE('messenger', 'hide');
     }
     
     // Check if user is already logged in
@@ -404,7 +404,7 @@ function initializeWidgetControl() {
     if (isLoggedIn && userRole === 'premier') {
         // Show widget for logged-in premier users
         if (typeof zE !== 'undefined') {
-            zE('webWidget', 'show');
+            zE('messenger', 'show');
         }
         
         // Update login button
@@ -415,14 +415,14 @@ function initializeWidgetControl() {
     } else {
         // Hide widget for all other users
         if (typeof zE !== 'undefined') {
-            zE('webWidget', 'hide');
+            zE('messenger', 'hide');
         }
     }
     
     // Add additional widget hiding mechanism
     setTimeout(() => {
         if (typeof zE !== 'undefined') {
-            zE('webWidget', 'hide');
+            zE('messenger', 'hide');
             console.log('Additional widget hiding applied');
         }
     }, 1000);
@@ -430,13 +430,13 @@ function initializeWidgetControl() {
     // Hide widget on page load and focus events
     window.addEventListener('load', () => {
         if (typeof zE !== 'undefined') {
-            zE('webWidget', 'hide');
+            zE('messenger', 'hide');
         }
     });
     
     window.addEventListener('focus', () => {
         if (typeof zE !== 'undefined') {
-            zE('webWidget', 'hide');
+            zE('messenger', 'hide');
         }
     });
 }
