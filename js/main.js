@@ -417,6 +417,36 @@ function initializeLoginModal() {
             showNotification('Logged out successfully. Widget hidden.', 'info');
         });
     }
+    
+    // Handle switch user (quick logout and return to login form)
+    const switchUserBtn = document.getElementById('switchUserBtn');
+    if (switchUserBtn) {
+        switchUserBtn.addEventListener('click', () => {
+            // Hide widget for all users
+            if (typeof zE !== 'undefined') {
+                zE('messenger', 'hide');
+            }
+            
+            // Remove widget-enabled class
+            document.body.classList.remove('widget-enabled');
+            
+            // Reset form and show login
+            loginForm.style.display = 'block';
+            userInfo.style.display = 'none';
+            loginForm.reset();
+            
+            // Clear session storage
+            sessionStorage.removeItem('userRole');
+            sessionStorage.removeItem('isLoggedIn');
+            
+            // Update login button text
+            if (loginBtn) {
+                loginBtn.textContent = 'Login';
+            }
+            
+            showNotification('Switched user successfully. Please log in with new credentials.', 'info');
+        });
+    }
 }
 
 // Widget Control Functions
