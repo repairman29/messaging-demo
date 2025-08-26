@@ -309,10 +309,51 @@
                 const availableMethods = [];
                 const testMethods = ['setLocale', 'identify', 'show', 'hide', 'configure'];
                 
+                // Test different API patterns
+                console.log('Testing different API patterns...');
+                
+                // Pattern 1: zE('messenger', 'method')
                 testMethods.forEach(method => {
                     try {
                         if (typeof zE('messenger', method) === 'function') {
-                            availableMethods.push(method);
+                            availableMethods.push(`messenger.${method}`);
+                        }
+                    } catch (e) {
+                        // Method not available
+                    }
+                });
+                
+                // Pattern 2: zE.messenger.method
+                if (zE.messenger) {
+                    testMethods.forEach(method => {
+                        try {
+                            if (typeof zE.messenger[method] === 'function') {
+                                availableMethods.push(`zE.messenger.${method}`);
+                            }
+                        } catch (e) {
+                            // Method not available
+                        }
+                    });
+                }
+                
+                // Pattern 3: zE.webWidget.method (old API)
+                if (zE.webWidget) {
+                    testMethods.forEach(method => {
+                        try {
+                            if (typeof zE.webWidget[method] === 'function') {
+                                availableMethods.push(`zE.webWidget.${method}`);
+                            }
+                        } catch (e) {
+                            // Method not available
+                        }
+                    });
+                }
+                
+                // Pattern 4: Direct zE.method
+                testMethods.forEach(method => {
+                    try {
+                        if (typeof zE[method] === 'function') {
+                            availableMethods.push(`zE.${method}`);
                         }
                     } catch (e) {
                         // Method not available
@@ -320,6 +361,32 @@
                 });
                 
                 console.log('Available Zendesk methods:', availableMethods);
+                
+                // Deep dive into what zE actually contains
+                console.log('zE object type:', typeof zE);
+                console.log('zE object:', zE);
+                
+                if (typeof zE === 'function') {
+                    console.log('zE is a function, checking its properties...');
+                    try {
+                        console.log('zE properties:', Object.getOwnPropertyNames(zE));
+                        console.log('zE prototype:', Object.getPrototypeOf(zE));
+                    } catch (e) {
+                        console.log('Could not inspect zE properties:', e.message);
+                    }
+                }
+                
+                // Check if zE.messenger exists
+                if (zE.messenger) {
+                    console.log('zE.messenger exists:', zE.messenger);
+                    console.log('zE.messenger properties:', Object.getOwnPropertyNames(zE.messenger));
+                }
+                
+                // Check if zE.webWidget exists (old API)
+                if (zE.webWidget) {
+                    console.log('zE.webWidget exists:', zE.webWidget);
+                    console.log('zE.webWidget properties:', Object.getOwnPropertyNames(zE.webWidget));
+                }
                 
                 try {
                     zE('messenger', 'hide');
