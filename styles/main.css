@@ -698,7 +698,7 @@ p {
 
 /* Hide Zendesk Widget by default */
 #launcher, 
-#webWidget, 
+#messenger, 
 [data-garden-id="buttons.icon_button"], 
 [data-garden-id="buttons.icon_button_container"] {
     display: none !important;
@@ -709,7 +709,7 @@ p {
 
 /* Show widget only when explicitly enabled */
 .widget-enabled #launcher, 
-.widget-enabled #webWidget, 
+.widget-enabled #messenger, 
 .widget-enabled [data-garden-id="buttons.icon_button"], 
 .widget-enabled [data-garden-id="buttons.icon_button_container"] {
     display: block !important;

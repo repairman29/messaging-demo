@@ -134,17 +134,34 @@
     <!-- Start of butler-ai Zendesk Widget script -->
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=a5f4e0f7-8aa3-44bc-a9b1-37ca07d5b4ff"></script>
     <script>
-        zE('webWidget', 'configure', {
-            display: {
-                helpButton: {
-                    color: '#1f73b7'
-                }
-            },
-            webWidget: {
-                position: { horizontal: 'right', vertical: 'bottom' },
-                offset: { horizontal: '20px', vertical: '20px' }
+        // Wait for Zendesk Web SDK to load, then hide it by default
+        function initializeZendeskWidget() {
+            if (typeof zE !== 'undefined') {
+                // Configure the new Web SDK messaging widget
+                zE('messenger', 'configure', {
+                    display: {
+                        helpButton: {
+                            color: '#1f73b7'
+                        }
+                    },
+                    messenger: {
+                        position: { horizontal: 'right', vertical: 'bottom' },
+                        offset: { horizontal: '20px', vertical: '20px' }
+                    }
+                });
+                
+                // Hide the widget immediately for all users using new API
+                zE('messenger', 'hide');
+                
+                console.log('Zendesk Web SDK messaging widget initialized and hidden on 404 page');
+            } else {
+                // Retry after a short delay if zE is not available yet
+                setTimeout(initializeZendeskWidget, 100);
             }
-        });
+        }
+        
+        // Start initialization
+        initializeZendeskWidget();
     </script>
     <!-- End of butler-ai Zendesk Widget script -->
 
