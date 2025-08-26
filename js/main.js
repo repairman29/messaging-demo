@@ -267,22 +267,5 @@ document.addEventListener('DOMContentLoaded', function() {
     https://developer.zendesk.com/api-reference/widgets/chat-widget/
     `);
     
-    // Debug login button visibility
-    const loginBtn = document.querySelector('.login-btn');
-    if (loginBtn) {
-        console.log('✅ Login button found:', loginBtn);
-        console.log('Login button styles:', window.getComputedStyle(loginBtn));
-        console.log('Login button visible:', loginBtn.offsetWidth > 0 && loginBtn.offsetHeight > 0);
-    } else {
-        console.log('❌ Login button NOT found!');
-    }
-    
-    // Debug navigation
-    const navMenu = document.querySelector('.nav-menu');
-    if (navMenu) {
-        console.log('✅ Navigation menu found:', navMenu);
-        console.log('Navigation items:', navMenu.children.length);
-    } else {
-        console.log('❌ Navigation menu NOT found!');
-    }
+
 });

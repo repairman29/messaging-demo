@@ -181,25 +181,26 @@ p {
 }
 
 .login-btn {
-    background-color: var(--primary-color) !important;
-    color: white !important;
-    padding: 8px 16px;
-    border-radius: 6px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
     transition: var(--transition);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-size: 0.875rem;
-    min-width: 80px;
+    min-width: 90px;
     text-align: center;
     border: 2px solid var(--primary-color);
     position: relative;
     z-index: 10;
+    box-shadow: var(--shadow);
 }
 
 .login-btn:hover {
-    background-color: var(--primary-dark) !important;
-    color: white !important;
+    background-color: var(--primary-dark);
+    color: white;
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
     border-color: var(--primary-dark);
@@ -207,23 +208,6 @@ p {
 
 .login-btn::after {
     display: none;
-}
-
-/* Login button animation */
-@keyframes loginPulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(31, 115, 183, 0.7);
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(31, 115, 183, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(31, 115, 183, 0);
-    }
-}
-
-.login-btn {
-    animation: loginPulse 2s infinite;
 }
 
 
