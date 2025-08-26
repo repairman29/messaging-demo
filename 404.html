@@ -137,8 +137,30 @@
         // Wait for Zendesk Web SDK to load, then hide it by default
         function initializeZendeskWidget() {
             if (typeof zE !== 'undefined') {
-                // Hide the widget immediately for all users
-                zE('messenger', 'hide');
+                console.log('Zendesk Web SDK loaded, checking available methods...');
+                
+                // Test what methods are available
+                const availableMethods = [];
+                const testMethods = ['setLocale', 'identify', 'show', 'hide', 'configure'];
+                
+                testMethods.forEach(method => {
+                    try {
+                        if (typeof zE('messenger', method) === 'function') {
+                            availableMethods.push(method);
+                        }
+                    } catch (e) {
+                        // Method not available
+                    }
+                });
+                
+                console.log('Available Zendesk methods:', availableMethods);
+                
+                try {
+                    zE('messenger', 'hide');
+                    console.log('Widget hidden successfully');
+                } catch (e) {
+                    console.log('Widget hide failed:', e.message);
+                }
                 
                 console.log('Zendesk Web SDK messaging widget initialized and hidden on 404 page');
             } else {
