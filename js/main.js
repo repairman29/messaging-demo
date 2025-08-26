@@ -383,56 +383,32 @@ function initializeLoginModal() {
                     document.getElementById('widgetStatus').textContent = 'Enabled (Guest)';
                     document.getElementById('widgetStatus').className = 'status-value enabled';
                 } else if (userSelect === 'registered') {
-                    // Registered User: Show widget with JWT authentication
-                    console.log('Attempting to show widget for Registered User with JWT...');
+                    // Registered User: Show widget (simplified approach for new Web SDK)
+                    console.log('Attempting to show widget for Registered User...');
                     
                     if (typeof zE !== 'undefined') {
-                        console.log('zE is available, proceeding with JWT authentication...');
+                        console.log('zE is available, showing widget...');
                         
-                        // Use the JWT token for proper authentication
+                        // Simple approach: just show the widget
+                        // The new Web SDK might handle authentication differently
                         try {
-                            // Method 1: Try JWT authentication with the new Web SDK
-                            if (typeof zE('messenger', 'identify') === 'function') {
-                                zE('messenger', 'identify', {
-                                    name: 'Demo User',
-                                    email: 'demo.user@example.com',
-                                    id: 'demo-user-123',
-                                    // Add JWT token if supported
-                                    jwt: '1iO8X87GyyNSkjzT4-eQUV8hKPL0rqNgRlU3S1C1cSi61_b8Q8eFjYlHJLTUJSW8MGdLZh9j9BDW15PDYw-WQw'
-                                });
-                                console.log('User authenticated via JWT identify method');
-                            }
-                            // Method 2: Try setting user properties with JWT
-                            else if (typeof zE('messenger', 'setLocale') === 'function') {
-                                zE('messenger', 'setLocale', 'en');
-                                console.log('User authenticated via setLocale method');
-                            }
-                            // Method 3: Try direct user object assignment with JWT
-                            else if (window.zE && window.zE.messenger) {
-                                window.zE.messenger.user = {
-                                    name: 'Demo User',
-                                    email: 'demo.user@example.com',
-                                    id: 'demo-user-123',
-                                    jwt: '1iO8X87GyyNSkjzT4-eQUV8hKPL0rqNgRlU3S1C1cSi61_b8Q8eFjYlHJLTUJSW8MGdLZh9j9BDW15PDYw-WQw'
-                                };
-                                console.log('User authenticated via direct assignment with JWT');
-                            }
+                            zE('messenger', 'show');
+                            console.log('Widget show command executed successfully');
                         } catch (e) {
-                            console.log('JWT authentication method not available:', e.message);
+                            console.log('Widget show failed:', e.message);
                         }
-                        
-                        // Show the widget
-                        console.log('Attempting to show widget...');
-                        zE('messenger', 'show');
-                        console.log('Widget show command executed');
                     } else {
                         console.log('zE is not available, will retry...');
                         // Retry showing widget after a delay
                         setTimeout(() => {
                             if (typeof zE !== 'undefined') {
                                 console.log('Retrying widget show...');
-                                zE('messenger', 'show');
-                                console.log('Widget show retry executed');
+                                try {
+                                    zE('messenger', 'show');
+                                    console.log('Widget show retry executed');
+                                } catch (e) {
+                                    console.log('Widget show retry failed:', e.message);
+                                }
                             } else {
                                 console.log('zE still not available after retry');
                             }
@@ -440,14 +416,18 @@ function initializeLoginModal() {
                     }
                     
                     document.body.classList.add('widget-enabled');
-                    document.getElementById('widgetStatus').textContent = 'Enabled (JWT Authenticated)';
+                    document.getElementById('widgetStatus').textContent = 'Enabled (Widget Visible)';
                     document.getElementById('widgetStatus').className = 'status-value enabled';
                     
                     // Additional widget show attempts
                     setTimeout(() => {
                         if (typeof zE !== 'undefined') {
                             console.log('Additional widget show attempt...');
-                            zE('messenger', 'show');
+                            try {
+                                zE('messenger', 'show');
+                            } catch (e) {
+                                console.log('Additional widget show failed:', e.message);
+                            }
                         }
                     }, 2000);
                 } else {
@@ -640,33 +620,11 @@ function initializeWidgetControl() {
     if (isLoggedIn && (userRole === 'premier' || userRole === 'registered')) {
         // Show widget for logged-in premier or registered users
         if (typeof zE !== 'undefined') {
-            // For registered users, try to authenticate them on page load with JWT
+            // For registered users, just show the widget on page load
             if (userRole === 'registered') {
-                try {
-                    // Try different authentication methods with JWT
-                    if (typeof zE('messenger', 'identify') === 'function') {
-                        zE('messenger', 'identify', {
-                            name: 'Demo User',
-                            email: 'demo.user@example.com',
-                            id: 'demo-user-123',
-                            jwt: '1iO8X87GyyNSkjzT4-eQUV8hKPL0rqNgRlU3S1C1cSi61_b8Q8eFjYlHJLTUJSW8MGdLZh9j9BDW15PDYw-WQw'
-                        });
-                        console.log('User re-authenticated on page load via JWT identify');
-                    } else if (typeof zE('messenger', 'setLocale') === 'function') {
-                        zE('messenger', 'setLocale', 'en');
-                        console.log('User re-authenticated on page load via setLocale');
-                    } else if (window.zE && window.zE.messenger) {
-                        window.zE.messenger.user = {
-                            name: 'Demo User',
-                            email: 'demo.user@example.com',
-                            id: 'demo-user-123',
-                            jwt: '1iO8X87GyyNSkjzT4-eQUV8hKPL0rqNgRlU3S1C1cSi61_b8Q8eFjYlHJLTUJSW8MGdLZh9j9BDW15PDYw-WQw'
-                        };
-                        console.log('User re-authenticated on page load via direct assignment with JWT');
-                    }
-                } catch (e) {
-                    console.log('Page load JWT authentication failed:', e.message);
-                }
+                console.log('Registered user detected on page load, showing widget...');
+                // The new Web SDK handles authentication differently
+                // Just ensure the widget is visible
             }
             
             zE('messenger', 'show');

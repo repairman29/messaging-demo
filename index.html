@@ -286,15 +286,23 @@
         // Wait for Zendesk Web SDK to load, then hide it by default
         function initializeZendeskWidget() {
             if (typeof zE !== 'undefined') {
-                try {
-                    // Try to set locale and hide the widget immediately for all users
-                    if (typeof zE('messenger', 'setLocale') === 'function') {
-                        zE('messenger', 'setLocale', 'en');
-                        console.log('Locale set successfully');
+                console.log('Zendesk Web SDK loaded, checking available methods...');
+                
+                // Test what methods are available
+                const availableMethods = [];
+                const testMethods = ['setLocale', 'identify', 'show', 'hide', 'configure'];
+                
+                testMethods.forEach(method => {
+                    try {
+                        if (typeof zE('messenger', method) === 'function') {
+                            availableMethods.push(method);
+                        }
+                    } catch (e) {
+                        // Method not available
                     }
-                } catch (e) {
-                    console.log('setLocale not available, continuing...');
-                }
+                });
+                
+                console.log('Available Zendesk methods:', availableMethods);
                 
                 try {
                     zE('messenger', 'hide');
