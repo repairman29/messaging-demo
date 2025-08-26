@@ -267,5 +267,135 @@ document.addEventListener('DOMContentLoaded', function() {
     https://developer.zendesk.com/api-reference/widgets/chat-widget/
     `);
     
-
+    // Initialize Login Modal System
+    initializeLoginModal();
+    
+    // Initialize Widget Control
+    initializeWidgetControl();
 });
+
+// Login Modal Functions
+function initializeLoginModal() {
+    const loginBtn = document.getElementById('loginBtn');
+    const modal = document.getElementById('loginModal');
+    const closeBtn = document.getElementById('closeModal');
+    const loginForm = document.getElementById('loginForm');
+    const userInfo = document.getElementById('userInfo');
+    
+    // Open modal
+    if (loginBtn) {
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+    }
+    
+    // Close modal
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+    }
+    
+    // Close modal when clicking outside
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
+    
+    // Handle login form submission
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const userSelect = document.getElementById('userSelect').value;
+            const password = document.getElementById('password').value;
+            
+            if (password === 'Testing123!') {
+                // Login successful
+                const userRole = userSelect === 'premier' ? 'Premier User' : 'Test User';
+                const roleClass = userSelect === 'premier' ? 'premier' : 'test';
+                
+                // Update UI
+                document.getElementById('roleBadge').textContent = userRole;
+                document.getElementById('roleBadge').className = `role-badge ${roleClass}`;
+                document.getElementById('userName').textContent = userSelect === 'premier' ? 'Premium Support Access' : 'Basic Demo Access';
+                
+                // Show user info and hide form
+                loginForm.style.display = 'none';
+                userInfo.style.display = 'block';
+                
+                // Control widget visibility based on user role
+                if (userSelect === 'premier') {
+                    zE('webWidget', 'show');
+                    document.getElementById('widgetStatus').textContent = 'Enabled';
+                    document.getElementById('widgetStatus').className = 'status-value enabled';
+                } else {
+                    zE('webWidget', 'hide');
+                    document.getElementById('widgetStatus').textContent = 'Disabled';
+                    document.getElementById('widgetStatus').className = 'status-value disabled';
+                }
+                
+                // Store user role in session storage
+                sessionStorage.setItem('userRole', userSelect);
+                sessionStorage.setItem('isLoggedIn', 'true');
+                
+                showNotification(`Welcome, ${userRole}!`, 'success');
+            } else {
+                showNotification('Invalid password. Please try again.', 'error');
+            }
+        });
+    }
+    
+    // Handle logout
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            // Hide widget for all users
+            zE('webWidget', 'hide');
+            
+            // Reset form and show login
+            loginForm.style.display = 'block';
+            userInfo.style.display = 'none';
+            loginForm.reset();
+            
+            // Clear session storage
+            sessionStorage.removeItem('userRole');
+            sessionStorage.removeItem('isLoggedIn');
+            
+            // Update login button text
+            if (loginBtn) {
+                loginBtn.textContent = 'Login';
+            }
+            
+            showNotification('Logged out successfully. Widget hidden.', 'info');
+        });
+    }
+}
+
+// Widget Control Functions
+function initializeWidgetControl() {
+    // Check if user is already logged in
+    const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+    const userRole = sessionStorage.getItem('userRole');
+    
+    if (isLoggedIn && userRole === 'premier') {
+        // Show widget for logged-in premier users
+        zE('webWidget', 'show');
+        
+        // Update login button
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.textContent = 'Premier User';
+        }
+    } else {
+        // Hide widget for all other users
+        zE('webWidget', 'hide');
+    }
+}

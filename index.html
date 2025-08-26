@@ -55,7 +55,7 @@
                     <a href="#contact" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a href="dashboard.html" class="nav-link login-btn">Login</a>
+                    <a href="#" class="nav-link login-btn" id="loginBtn">Login</a>
                 </li>
             </ul>
             <div class="hamburger">
@@ -280,6 +280,7 @@
     <!-- Start of butler-ai Zendesk Widget script -->
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=a5f4e0f7-8aa3-44bc-a9b1-37ca07d5b4ff"></script>
     <script>
+        // Hide widget by default for all users
         zE('webWidget', 'configure', {
             display: {
                 helpButton: {
@@ -291,8 +292,55 @@
                 offset: { horizontal: '20px', vertical: '20px' }
             }
         });
+        
+        // Hide the widget immediately after configuration
+        zE('webWidget', 'hide');
     </script>
     <!-- End of butler-ai Zendesk Widget script -->
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to Demo Dashboard</h2>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="userSelect">Select User Role:</label>
+                        <select id="userSelect" name="userSelect" required>
+                            <option value="">Choose a user role...</option>
+                            <option value="test">Test User</option>
+                            <option value="premier">Premier User</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter password" required>
+                        <small class="password-hint">Password: Testing123!</small>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <div class="user-role">
+                        <span class="role-badge" id="roleBadge"></span>
+                        <span class="user-name" id="userName"></span>
+                    </div>
+                    <div class="widget-status">
+                        <span class="status-label">Widget Status:</span>
+                        <span class="status-value" id="widgetStatus"></span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="dashboard.html" class="btn btn-accent">Access Dashboard</a>
+                        <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
