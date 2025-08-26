@@ -361,7 +361,11 @@ function initializeLoginModal() {
                     document.getElementById('widgetStatus').className = 'status-value enabled';
                 } else if (userSelect === 'registered') {
                     // Registered User: Show widget with Zendesk authentication
+                    console.log('Attempting to show widget for Registered User...');
+                    
                     if (typeof zE !== 'undefined') {
+                        console.log('zE is available, proceeding with authentication...');
+                        
                         // Try to authenticate the user in Zendesk using the new Web SDK
                         try {
                             // Method 1: Try the new Web SDK identify method
@@ -392,11 +396,34 @@ function initializeLoginModal() {
                         }
                         
                         // Show the widget
+                        console.log('Attempting to show widget...');
                         zE('messenger', 'show');
+                        console.log('Widget show command executed');
+                    } else {
+                        console.log('zE is not available, will retry...');
+                        // Retry showing widget after a delay
+                        setTimeout(() => {
+                            if (typeof zE !== 'undefined') {
+                                console.log('Retrying widget show...');
+                                zE('messenger', 'show');
+                                console.log('Widget show retry executed');
+                            } else {
+                                console.log('zE still not available after retry');
+                            }
+                        }, 1000);
                     }
+                    
                     document.body.classList.add('widget-enabled');
                     document.getElementById('widgetStatus').textContent = 'Enabled (Authenticated)';
                     document.getElementById('widgetStatus').className = 'status-value enabled';
+                    
+                    // Additional widget show attempts
+                    setTimeout(() => {
+                        if (typeof zE !== 'undefined') {
+                            console.log('Additional widget show attempt...');
+                            zE('messenger', 'show');
+                        }
+                    }, 2000);
                 } else {
                     // Test User: Hide widget
                     if (typeof zE !== 'undefined') {
@@ -510,6 +537,29 @@ function updateNavigationButtons(userRole) {
             navLogoutItem.style.display = 'none';
             navLoginBtn.textContent = 'Login';
         }
+    }
+}
+
+// Force widget to show for testing
+function forceShowWidget() {
+    if (typeof zE !== 'undefined') {
+        console.log('Force showing widget...');
+        zE('messenger', 'show');
+        
+        // Also try to remove any hiding classes
+        document.body.classList.add('widget-enabled');
+        
+        // Check if widget is visible after a delay
+        setTimeout(() => {
+            const widgetElements = document.querySelectorAll('[data-garden-id*="messenger"], [id*="messenger"], [class*="messenger"]');
+            console.log('Found widget elements:', widgetElements.length);
+            widgetElements.forEach(el => {
+                console.log('Widget element:', el);
+                el.style.display = 'block';
+                el.style.visibility = 'visible';
+                el.style.opacity = '1';
+            });
+        }, 1000);
     }
 }
 

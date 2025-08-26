@@ -763,11 +763,15 @@ p {
 .widget-enabled #launcher, 
 .widget-enabled #messenger, 
 .widget-enabled [data-garden-id="buttons.icon_button"], 
-.widget-enabled [data-garden-id="buttons.icon_button_container"] {
+.widget-enabled [data-garden-id="buttons.icon_button_container"],
+.widget-enabled [data-garden-id*="messenger"],
+.widget-enabled [id*="messenger"],
+.widget-enabled [class*="messenger"] {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     pointer-events: auto !important;
+    z-index: 9999 !important;
 }
 
 /* Footer */
