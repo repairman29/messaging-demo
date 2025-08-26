@@ -377,9 +377,16 @@ function initializeLoginModal() {
                     document.getElementById('widgetStatus').className = 'status-value disabled';
                 }
                 
-                // Store user role in session storage
+                // Store user role and display name in session storage
                 sessionStorage.setItem('userRole', userSelect);
                 sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('userDisplayName', userRole);
+                
+                // Update dashboard header if we're on the dashboard page
+                const dashboardUserName = document.getElementById('dashboardUserName');
+                if (dashboardUserName) {
+                    dashboardUserName.textContent = userRole;
+                }
                 
                 showNotification(`Welcome, ${userRole}!`, 'success');
             } else {
@@ -408,6 +415,7 @@ function initializeLoginModal() {
             // Clear session storage
             sessionStorage.removeItem('userRole');
             sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('userDisplayName');
             
             // Update login button text
             if (loginBtn) {
@@ -438,6 +446,7 @@ function initializeLoginModal() {
             // Clear session storage
             sessionStorage.removeItem('userRole');
             sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('userDisplayName');
             
             // Update login button text
             if (loginBtn) {
@@ -472,6 +481,7 @@ function initializeWidgetControl() {
                 });
             }
             zE('messenger', 'show');
+            document.body.classList.add('widget-enabled');
         }
         
         // Update login button
@@ -479,32 +489,41 @@ function initializeWidgetControl() {
         if (loginBtn) {
             loginBtn.textContent = userRole === 'premier' ? 'Premier User' : 'Registered User';
         }
+        
+        // Update dashboard header if we're on the dashboard page
+        const dashboardUserName = document.getElementById('dashboardUserName');
+        if (dashboardUserName) {
+            dashboardUserName.textContent = userRole;
+        }
     } else {
         // Hide widget for all other users
         if (typeof zE !== 'undefined') {
             zE('messenger', 'hide');
+            document.body.classList.remove('widget-enabled');
         }
     }
     
-    // Add additional widget hiding mechanism
-    setTimeout(() => {
-        if (typeof zE !== 'undefined') {
-            zE('messenger', 'hide');
-            console.log('Additional widget hiding applied');
-        }
-    }, 1000);
-    
-    // Hide widget on page load and focus events
-    window.addEventListener('load', () => {
-        if (typeof zE !== 'undefined') {
-            zE('messenger', 'hide');
-        }
-    });
-    
-    window.addEventListener('focus', () => {
-        if (typeof zE !== 'undefined') {
-            zE('messenger', 'hide');
-        }
-    });
+    // Only apply additional hiding if widget is not enabled
+    if (!document.body.classList.contains('widget-enabled')) {
+        setTimeout(() => {
+            if (typeof zE !== 'undefined') {
+                zE('messenger', 'hide');
+                console.log('Additional widget hiding applied');
+            }
+        }, 1000);
+        
+        // Hide widget on page load and focus events only if not enabled
+        window.addEventListener('load', () => {
+            if (typeof zE !== 'undefined' && !document.body.classList.contains('widget-enabled')) {
+                zE('messenger', 'hide');
+            }
+        });
+        
+        window.addEventListener('focus', () => {
+            if (typeof zE !== 'undefined' && !document.body.classList.contains('widget-enabled')) {
+                zE('messenger', 'hide');
+            }
+        });
+    }
 }
 
