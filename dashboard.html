@@ -304,21 +304,7 @@
         function initializeZendeskWidget() {
             if (typeof zE !== 'undefined') {
                 // Configure the new Web SDK messaging widget
-                zE('messenger', 'configure', {
-                    display: {
-                        helpButton: {
-                            color: '#1f73b7'
-                        }
-                    },
-                    messenger: {
-                        position: { horizontal: 'right', vertical: 'bottom' },
-                        offset: { horizontal: '20px', vertical: '20px' }
-                    },
-                    chat: {
-                        title: 'Analytics Support',
-                        suppress: false
-                    }
-                });
+                zE('messenger', 'setLocale', 'en');
                 
                 // Hide the widget immediately for all users using new API
                 zE('messenger', 'hide');
