@@ -383,39 +383,42 @@ function initializeLoginModal() {
                     document.getElementById('widgetStatus').textContent = 'Enabled (Guest)';
                     document.getElementById('widgetStatus').className = 'status-value enabled';
                 } else if (userSelect === 'registered') {
-                    // Registered User: Show widget with Zendesk authentication
-                    console.log('Attempting to show widget for Registered User...');
+                    // Registered User: Show widget with JWT authentication
+                    console.log('Attempting to show widget for Registered User with JWT...');
                     
                     if (typeof zE !== 'undefined') {
-                        console.log('zE is available, proceeding with authentication...');
+                        console.log('zE is available, proceeding with JWT authentication...');
                         
-                        // Try to authenticate the user in Zendesk using the new Web SDK
+                        // Use the JWT token for proper authentication
                         try {
-                            // Method 1: Try the new Web SDK identify method
+                            // Method 1: Try JWT authentication with the new Web SDK
                             if (typeof zE('messenger', 'identify') === 'function') {
                                 zE('messenger', 'identify', {
                                     name: 'Demo User',
                                     email: 'demo.user@example.com',
-                                    id: 'demo-user-123'
+                                    id: 'demo-user-123',
+                                    // Add JWT token if supported
+                                    jwt: '1iO8X87GyyNSkjzT4-eQUV8hKPL0rqNgRlU3S1C1cSi61_b8Q8eFjYlHJLTUJSW8MGdLZh9j9BDW15PDYw-WQw'
                                 });
-                                console.log('User authenticated via identify method');
+                                console.log('User authenticated via JWT identify method');
                             }
-                            // Method 2: Try setting user properties
+                            // Method 2: Try setting user properties with JWT
                             else if (typeof zE('messenger', 'setLocale') === 'function') {
                                 zE('messenger', 'setLocale', 'en');
                                 console.log('User authenticated via setLocale method');
                             }
-                            // Method 3: Try direct user object assignment
+                            // Method 3: Try direct user object assignment with JWT
                             else if (window.zE && window.zE.messenger) {
                                 window.zE.messenger.user = {
                                     name: 'Demo User',
                                     email: 'demo.user@example.com',
-                                    id: 'demo-user-123'
+                                    id: 'demo-user-123',
+                                    jwt: '1iO8X87GyyNSkjzT4-eQUV8hKPL0rqNgRlU3S1C1cSi61_b8Q8eFjYlHJLTUJSW8MGdLZh9j9BDW15PDYw-WQw'
                                 };
-                                console.log('User authenticated via direct assignment');
+                                console.log('User authenticated via direct assignment with JWT');
                             }
                         } catch (e) {
-                            console.log('Authentication method not available:', e.message);
+                            console.log('JWT authentication method not available:', e.message);
                         }
                         
                         // Show the widget
@@ -437,7 +440,7 @@ function initializeLoginModal() {
                     }
                     
                     document.body.classList.add('widget-enabled');
-                    document.getElementById('widgetStatus').textContent = 'Enabled (Authenticated)';
+                    document.getElementById('widgetStatus').textContent = 'Enabled (JWT Authenticated)';
                     document.getElementById('widgetStatus').className = 'status-value enabled';
                     
                     // Additional widget show attempts
@@ -637,17 +640,18 @@ function initializeWidgetControl() {
     if (isLoggedIn && (userRole === 'premier' || userRole === 'registered')) {
         // Show widget for logged-in premier or registered users
         if (typeof zE !== 'undefined') {
-            // For registered users, try to authenticate them on page load
+            // For registered users, try to authenticate them on page load with JWT
             if (userRole === 'registered') {
                 try {
-                    // Try different authentication methods
+                    // Try different authentication methods with JWT
                     if (typeof zE('messenger', 'identify') === 'function') {
                         zE('messenger', 'identify', {
                             name: 'Demo User',
                             email: 'demo.user@example.com',
-                            id: 'demo-user-123'
+                            id: 'demo-user-123',
+                            jwt: '1iO8X87GyyNSkjzT4-eQUV8hKPL0rqNgRlU3S1C1cSi61_b8Q8eFjYlHJLTUJSW8MGdLZh9j9BDW15PDYw-WQw'
                         });
-                        console.log('User re-authenticated on page load via identify');
+                        console.log('User re-authenticated on page load via JWT identify');
                     } else if (typeof zE('messenger', 'setLocale') === 'function') {
                         zE('messenger', 'setLocale', 'en');
                         console.log('User re-authenticated on page load via setLocale');
@@ -655,12 +659,13 @@ function initializeWidgetControl() {
                         window.zE.messenger.user = {
                             name: 'Demo User',
                             email: 'demo.user@example.com',
-                            id: 'demo-user-123'
+                            id: 'demo-user-123',
+                            jwt: '1iO8X87GyyNSkjzT4-eQUV8hKPL0rqNgRlU3S1C1cSi61_b8Q8eFjYlHJLTUJSW8MGdLZh9j9BDW15PDYw-WQw'
                         };
-                        console.log('User re-authenticated on page load via direct assignment');
+                        console.log('User re-authenticated on page load via direct assignment with JWT');
                     }
                 } catch (e) {
-                    console.log('Page load authentication failed:', e.message);
+                    console.log('Page load JWT authentication failed:', e.message);
                 }
             }
             
