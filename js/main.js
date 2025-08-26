@@ -319,27 +319,56 @@ function initializeLoginModal() {
             
             if (password === 'Testing123!') {
                 // Login successful
-                const userRole = userSelect === 'premier' ? 'Premier User' : 'Test User';
-                const roleClass = userSelect === 'premier' ? 'premier' : 'test';
+                let userRole, roleClass, userName;
+                
+                if (userSelect === 'premier') {
+                    userRole = 'Premier User';
+                    roleClass = 'premier';
+                    userName = 'Premium Support Access';
+                } else if (userSelect === 'registered') {
+                    userRole = 'Registered User';
+                    roleClass = 'registered';
+                    userName = 'Authenticated Zendesk User';
+                } else {
+                    userRole = 'Test User';
+                    roleClass = 'test';
+                    userName = 'Basic Demo Access';
+                }
                 
                 // Update UI
                 document.getElementById('roleBadge').textContent = userRole;
                 document.getElementById('roleBadge').className = `role-badge ${roleClass}`;
-                document.getElementById('userName').textContent = userSelect === 'premier' ? 'Premium Support Access' : 'Basic Demo Access';
+                document.getElementById('userName').textContent = userName;
                 
                 // Show user info and hide form
                 loginForm.style.display = 'none';
                 userInfo.style.display = 'block';
                 
-                // Control widget visibility based on user role
+                // Control widget visibility and authentication based on user role
                 if (userSelect === 'premier') {
+                    // Premier User: Show widget without authentication
                     if (typeof zE !== 'undefined') {
                         zE('messenger', 'show');
                     }
                     document.body.classList.add('widget-enabled');
-                    document.getElementById('widgetStatus').textContent = 'Enabled';
+                    document.getElementById('widgetStatus').textContent = 'Enabled (Guest)';
+                    document.getElementById('widgetStatus').className = 'status-value enabled';
+                } else if (userSelect === 'registered') {
+                    // Registered User: Show widget with Zendesk authentication
+                    if (typeof zE !== 'undefined') {
+                        // Authenticate the user in Zendesk
+                        zE('messenger', 'identify', {
+                            name: 'Demo User',
+                            email: 'demo.user@example.com',
+                            id: 'demo-user-123'
+                        });
+                        zE('messenger', 'show');
+                    }
+                    document.body.classList.add('widget-enabled');
+                    document.getElementById('widgetStatus').textContent = 'Enabled (Authenticated)';
                     document.getElementById('widgetStatus').className = 'status-value enabled';
                 } else {
+                    // Test User: Hide widget
                     if (typeof zE !== 'undefined') {
                         zE('messenger', 'hide');
                     }
@@ -401,16 +430,24 @@ function initializeWidgetControl() {
     const isLoggedIn = sessionStorage.getItem('isLoggedIn');
     const userRole = sessionStorage.getItem('userRole');
     
-    if (isLoggedIn && userRole === 'premier') {
-        // Show widget for logged-in premier users
+    if (isLoggedIn && (userRole === 'premier' || userRole === 'registered')) {
+        // Show widget for logged-in premier or registered users
         if (typeof zE !== 'undefined') {
+            if (userRole === 'registered') {
+                // Re-authenticate registered users on page load
+                zE('messenger', 'identify', {
+                    name: 'Demo User',
+                    email: 'demo.user@example.com',
+                    id: 'demo-user-123'
+                });
+            }
             zE('messenger', 'show');
         }
         
         // Update login button
         const loginBtn = document.getElementById('loginBtn');
         if (loginBtn) {
-            loginBtn.textContent = 'Premier User';
+            loginBtn.textContent = userRole === 'premier' ? 'Premier User' : 'Registered User';
         }
     } else {
         // Hide widget for all other users
@@ -440,3 +477,4 @@ function initializeWidgetControl() {
         }
     });
 }
+

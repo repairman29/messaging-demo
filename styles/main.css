@@ -627,6 +627,11 @@ p {
     color: white;
 }
 
+.role-badge.registered {
+    background-color: #17a2b8;
+    color: white;
+}
+
 .role-badge.premier {
     background-color: var(--accent-color);
     color: white;
